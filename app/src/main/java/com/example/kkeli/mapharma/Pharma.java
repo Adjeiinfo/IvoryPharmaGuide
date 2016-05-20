@@ -14,6 +14,7 @@ public class Pharma {
     private String _photograph;
     private String _region;
     private String _town;
+    private double _distance;
 
     // Constructor
     public Pharma(){
@@ -21,7 +22,9 @@ public class Pharma {
     }
 
     // Constructor
-    public Pharma(String name, String phone_number, String email, String postal_address, String photograph, String region, String town){
+    public Pharma(String name, String phone_number, String email,
+                  String postal_address, String photograph,
+                  String region, String town, float distance){
         this._name = name;
         this._phone_number = phone_number;
         this._email = email;
@@ -29,6 +32,7 @@ public class Pharma {
         this._photograph = photograph;
         this._region = region;
         this._town = town;
+        this._distance = distance;
     }
 
     // ID getter and setter functions
@@ -93,5 +97,14 @@ public class Pharma {
 
     public void setPhotograph(String photograph){
         this._photograph = photograph;
+    }
+
+    // Distance getter and setter functions
+    public double getDistance(){
+        return this._distance;
+    }
+
+    public void set_distance(double distance){
+        this._distance = distance;
     }
 }

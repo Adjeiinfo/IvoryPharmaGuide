@@ -5,8 +5,10 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/item_selector"
-    android:gravity="right|end">
-    <LinearLayout
+    android:gravity="right|end"
+    android:descendantFocusability="blocksDescendants"
+    >
+ <!--   <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -18,9 +20,9 @@
             android:id="@+id/backBtn"
             android:layout_gravity="center_horizontal"
             android:layout_alignTop="@+id/mapBtn"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true" /> -->
         <!-- This helps to get the button to the right!-->
-        <View
+  <!--      <View
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -45,15 +47,7 @@
         android:paddingBottom="20dp"
         android:paddingTop="20dp"
         android:textAppearance="?android:attr/textAppearanceLarge"/>
-    <View style="@style/Divider"/>
-    <ScrollView
-
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@id/tv_ville_detail"
-        android:id="@+id/lv_town_list"
-        >
-
+    <View style="@style/Divider"/> -->
     <RelativeLayout
         android:id="@+id/thumbnail"
         android:layout_width="fill_parent"
@@ -62,18 +56,17 @@
         android:layout_marginRight="5dp"
         android:padding="3dp"
         android:orientation="horizontal"
-        android:layout_below="@id/tv_ville_detail">
-
+        >
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:id="@+id/list_image"
             android:src="@drawable/pharmacie"
             android:layout_centerVertical="true"
-            android:layout_alignParentStart="true" />
-
+            android:layout_alignParentStart="true"
+            />
         <TextView
-            android:id="@+id/tv_pharma_name"
+            android:id="@+id/tv_town_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="25dp"
@@ -83,7 +76,8 @@
             android:textStyle="bold"
             android:typeface="sans"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            />
         <!-- This helps to get the button to the right!-->
         <View
             android:layout_width="0dp"
@@ -97,11 +91,8 @@
             android:layout_height="50dp"
             android:layout_alignParentEnd="true"
             android:layout_gravity="right"
-
             />
-
     </RelativeLayout>
-    </ScrollView>
     <!--
     <View style="@style/Divider"/>
     <EditText

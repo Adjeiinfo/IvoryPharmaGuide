@@ -27,13 +27,13 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        pharmaHandler = new PharmaHandler(this);
+        pharmaHandler = new PharmaHandler(getApplicationContext());
         addContactTest();
         addTown();
 
         //test to laod the data for initial check
-        displayPharmaTest();
-        displayPharmaTown();
+        //displayPharmaTest();
+        //displayTown();
         //Code for loading contact list in ListView
     }
 
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     //Functions to respond to user interactions
     public void getAllPharma(View view) {
         //Ready to list the pharmas in the users area
-        Intent intent = new Intent(this,AllPharmaActivity.class);
+        Intent intent = new Intent(MainActivity.this,AllPharmaActivity.class);
         startActivity(intent);
 
     }
@@ -90,10 +90,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void addContactTest(){
         //Code for loading contact list in ListView
-        pharmaHandler.addPharmaDetails(new Pharma("Pharmacie des etoile", "9800112233", "ajay@ajay.com", "", "","Abidjan","Cocody"));
-        pharmaHandler.addPharmaDetails(new Pharma("Pharmacie du ciel", "9644556677", "vishal@vishal.com", "", "","Yakro","Yakro"));
-        pharmaHandler.addPharmaDetails(new Pharma("Pharmacie le paradis", "9488990011", "mahesh@mahesh.com", "", "","Daloa","Daloa"));
-        pharmaHandler.addPharmaDetails(new Pharma("Pharmacie la vie", "9222334455", "manoj@manoj.com", "", "","Boundoukou","Bondoukou"));
+        pharmaHandler.addPharmaDetails(new Pharma("Pharmacie des etoile", "9800112233", "ajay@ajay.com", "", "","Abidjan","Cocody",1000));
+        pharmaHandler.addPharmaDetails(new Pharma("Pharmacie du ciel", "9644556677", "vishal@vishal.com", "", "","Yakro","Yakro",900));
+        pharmaHandler.addPharmaDetails(new Pharma("Pharmacie le paradis", "9488990011", "mahesh@mahesh.com", "", "","Daloa","Daloa",700));
+        pharmaHandler.addPharmaDetails(new Pharma("Pharmacie la vie", "9222334455", "manoj@manoj.com", "", "","Boundoukou","Bondoukou",0.5f));
     }
 
     public void displayPharmaTest()
@@ -166,10 +166,11 @@ public class MainActivity extends AppCompatActivity {
         Town [] town = new Town [allTown.length];
         for (int i = 0; i < allTown.length; i++){
             town[i] = new Town(allTown[i]);
+            pharmaHandler.insertTown(town[i]);
         }
     }
 
-    public void displayTownt()
+    public void displayTown()
     {
         // Reading all contacts
         List<Town> myTown = pharmaHandler.readAllTown();
@@ -177,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
             String record = "ID=" + c.getID() + " | Name=" + c.getName() ;
             Log.d("Record",record);
         }
+        Log.d("Number of town",pharmaHandler.getTownDoCount()+ " ");
     }
 
 }

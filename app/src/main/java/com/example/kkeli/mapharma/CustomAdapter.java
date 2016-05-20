@@ -53,12 +53,12 @@ public class CustomAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.pharmacieproche, null);
 
         TextView name = (TextView) view.findViewById(R.id.tv_pharma_name);
-        TextView phone = (TextView) view.findViewById(R.id.tv_distance);
+        TextView distance = (TextView) view.findViewById(R.id.tv_distance);
         ImageView photo = (ImageView) view.findViewById(R.id.list_image);
 
         name.setText(pharma.getName());
-        phone.setText(pharma.getPhoneNumber());
-        photo.setImageBitmap(BitmapFactory.decodeFile(pharma.getPhotograph()));
+        distance.setText(pharma.getDistance() +" m");
+        //photo.setImageBitmap(BitmapFactory.decodeFile(pharma.getPhotograph()));
 
         return view;
     }

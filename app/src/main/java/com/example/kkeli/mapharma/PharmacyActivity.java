@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -24,24 +25,26 @@ public class PharmacyActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pharmacy_activy);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.mainview);
+        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);*/
 
         //load the pharma list
-        loadPharmaData();
+        pharmaHandler = new PharmaHandler(getApplicationContext());
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+     /*   FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
         //Get the list view
         lv = (ListView)findViewById(R.id.lv_pharma_list);
+
+        loadPharmaData();
         //receive intent results here
 
         // Load the pharmacie of the selected town
@@ -58,7 +61,7 @@ public class PharmacyActivity extends AppCompatActivity {
     }
 
     private void loadPharmaData(){
-        // Code for loading contact list in ListView
+        // Code for loading pharmas list in ListView
         List<Pharma> pharmas = pharmaHandler.readAllPharma();
 
         // Initialize Custom Adapter

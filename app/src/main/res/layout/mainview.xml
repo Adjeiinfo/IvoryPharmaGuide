@@ -2,7 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity" >
+    tools:context=".MainActivity"
+    android:descendantFocusability="blocksDescendants"
+    >
+
     <Button android:text="Add New Contact"
         android:id="@+id/btn_add_contact"
         android:layout_width="match_parent"
@@ -12,12 +15,14 @@
         android:id="@+id/lv_pharma_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/btn_add_contact"/>
-    <android.support.v7.widget.ListViewCompat
+        android:layout_above="@id/btn_add_contact"
+
+        />
+  <!--  <android.support.v7.widget.ListViewCompat
         android:id="@+id/lv_ville_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/btn_add_contact">
-    </android.support.v7.widget.ListViewCompat>
+    </android.support.v7.widget.ListViewCompat> -->
 
 </RelativeLayout>

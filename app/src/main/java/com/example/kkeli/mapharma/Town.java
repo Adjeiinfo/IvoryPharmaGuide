@@ -90,12 +90,9 @@ public class Town {
             if(view == null)
                 view = inflater.inflate(R.layout.recherchepharmacie, null);
 
-            TextView name = (TextView) view.findViewById(R.id.tv_ville_detail);
-
+            TextView name = (TextView) view.findViewById(R.id.tv_town_name);
             ImageView photo = (ImageView) view.findViewById(R.id.list_image);
-
             name.setText(town.getName());
-
             return view;
         }
 

@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/item_selector"
+    android:gravity="right|end"
+    android:descendantFocusability="blocksDescendants"
     android:padding="5dp">
-    <ScrollView
+  <!--  <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"> -->
         <RelativeLayout
             android:id="@+id/thumbnail"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_marginRight="5dp"
@@ -22,17 +24,16 @@
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:id="@+id/list_image"
-                android:src="@drawable/pharmacie"/>
-
-
-
+                android:src="@drawable/pharmacie"
+                />
         <ImageView
             android:id="@+id/arrow"
             android:src="@drawable/arrow"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            />
         <TextView
             android:id="@+id/tv_pharma_name"
             android:layout_width="wrap_content"
@@ -61,5 +62,5 @@
             android:textSize="15sp"
         />
         </RelativeLayout>
-    </ScrollView>
+ <!--   </ScrollView> -->
 </RelativeLayout>

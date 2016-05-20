@@ -18,21 +18,16 @@ public class AllPharmaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainview);
 
-        String[] defaultPharma;
-        //Default list for demonstration
-        lv = (ListView)findViewById(R.id.lv_ville_list);
-
         pharmaHandler = new PharmaHandler(getApplicationContext());
-        //loadPharmaData();
+
+        lv = (ListView)findViewById(R.id.lv_pharma_list);
+
         loadTownData();
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(AllPharmaActivity.this, PharmacyActivity.class);
-                //intent.putExtra("id",contacts.get(position).getID());
-               // intent.putExtra("name", contacts.get(position).getName());
-               // intent.putExtra("phone", contacts.get(position).getPhoneNumber());
                 startActivity(intent);
             }
         });

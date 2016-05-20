@@ -20,16 +20,16 @@ public class PharmaHandler extends SQLiteOpenHelper {
 
     // All variables about DB
     // Database name
-    private static final String DATABASE_NAME = "pharma3";
+    private static final String DATABASE_NAME = "pharma00";
 
     // Database version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 6;
 
     // Pharmacie table name
-    private static final String TABLE_PHARMA = "pharmaTable5";
+    private static final String TABLE_PHARMA = "pharmaTable6";
 
     //Town table name
-    private static  final String TABLE_TOWN = "towntable";
+    private static  final String TABLE_TOWN = "towntable2";
 
     // Table Column names (add all column names here)
     private static final String COLUMN_ID = "id";
@@ -65,7 +65,7 @@ public class PharmaHandler extends SQLiteOpenHelper {
                     TABLE_TOWN +
                     "("
                     + TOWN_COLUNM_ID + " INTEGER PRIMARY KEY,"
-                    + TOWN_COLUMN_NAME + " TEXT"
+                    + TOWN_COLUMN_NAME + " TEXT,"
                     + KEY_CREATED_AT + " DATETIME"+
                     ")";
 
@@ -105,7 +105,7 @@ public class PharmaHandler extends SQLiteOpenHelper {
 	 * */
 
 
-    // Add Pharma
+    // insert Pharma
     public boolean addPharmaDetails(Pharma pharma){
         // Get db writable
         SQLiteDatabase db = this.getWritableDatabase();
@@ -160,6 +160,25 @@ public class PharmaHandler extends SQLiteOpenHelper {
         return pharmas;
     }
 
+    // insert town
+    public boolean insertTown(Town town){
+        // Get db writable
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Get the values to insert
+        ContentValues vals = new ContentValues();
+        vals.put(TOWN_COLUMN_NAME, town.getName());
+
+        // Insert values into table
+        long i = db.insert(TABLE_TOWN, null, vals);
+        // Close database
+        db.close();
+
+        if(i != 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
     // Update pharma pharma
     public boolean editPharma(Pharma pharma){
         SQLiteDatabase db = this.getWritableDatabase();
