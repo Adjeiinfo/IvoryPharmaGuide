@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    >
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="retour"
+        android:id="@+id/backBtn"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignTop="@+id/mapBtn"
+        android:layout_alignParentStart="true" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Carte"
+        android:id="@+id/mapBtn"
+        android:layout_gravity="right"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/backBtn"
+        android:orientation="vertical"
+        android:layout_above="@+id/priceBtn">
+        <View style="@style/Divider"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Detail de la Pharmacie"
+            android:id="@+id/tv_pharma_detail"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="120dp"
+            android:src="@drawable/pharmadegarde"
+            android:layout_margin="5dp"
+            />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            >
+            <TextView
+                android:id="@+id/tv_textV1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pharma Name: "
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
+            />
+            <TextView
+                android:id="@+id/tv_textV2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Nom de la Pharmacie"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
+            />
+            </TableRow>
+            <View style="@style/Divider"/>
+            <TableRow
+                android:id="@+id/tableRow2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                >
+                <TextView
+                android:id="@+id/tv_textV3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone:"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                />
+                <TextView
+                    android:id="@+id/tv_phone_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="N. de Telephone"
+                    android:textAppearance="?android:attr/textAppearanceMedium"/>
+                /></TableRow>
+            <View style="@style/Divider"/>
+            <TableRow
+                android:id="@+id/tableRow5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                >
+                <TextView
+                android:id="@+id/tv_textV6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Addresse: "
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                />
+                <TextView
+                    android:id="@+id/tv_adddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Localisation Pharmacie"
+                    android:textAppearance="?android:attr/textAppearanceMedium"/>
+                /></TableRow>
+            <View style="@style/Divider"/>
+
+        </TableLayout>
+
+        <TextView
+            android:id="@+id/tv_textV8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pharma Name"
+            android:padding="5dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
+        />
+        <TextView
+            android:id="@+id/tv_physical_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:hint ="Adresse Physique"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
+        />
+        <TableRow android:layout_height="match_parent"
+            android:layout_width="match_parent">
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Detail Carte"
+                android:id="@+id/mapBtn1"
+                android:layout_gravity="center_horizontal"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true" />
+        </TableRow>
+    </LinearLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Disponibilite"
+        android:id="@+id/priceBtn"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Prix"
+        android:id="@+id/stockBtn"
+        android:layout_gravity="right"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
+</RelativeLayout>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/item_selector"
+    android:gravity="right|end"
+    android:descendantFocusability="blocksDescendants"
+    >
+ <!--   <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/top_menu">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="retour"
+            android:id="@+id/backBtn"
+            android:layout_gravity="center_horizontal"
+            android:layout_alignTop="@+id/mapBtn"
+            android:layout_alignParentStart="true" /> -->
+        <!-- This helps to get the button to the right!-->
+  <!--      <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Carte"
+            android:id="@+id/mapBtn"
+            android:layout_gravity="right"
+            android:layout_marginRight="10dp" />
+    </LinearLayout>
+
+    <View style="@style/Divider"/>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Selectionner Ville"
+        android:id="@+id/tv_ville_detail"
+        android:layout_below="@id/top_menu"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+    <View style="@style/Divider"/> -->
+    <RelativeLayout
+        android:id="@+id/thumbnail"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="5dp"
+        android:padding="3dp"
+        android:orientation="horizontal"
+        >
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/list_image"
+            android:src="@drawable/pharmacie"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            />
+        <TextView
+            android:id="@+id/tv_town_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:text="Abidjan"
+            android:textColor="#040404"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:typeface="sans"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            />
+        <!-- This helps to get the button to the right!-->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+        <ImageView
+            android:id="@+id/arrow"
+            android:src="@drawable/arrow"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="right"
+            />
+    </RelativeLayout>
+    <!--
+    <View style="@style/Divider"/>
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText6"
+        android:paddingTop="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="Saisir medicament"
+        android:layout_below="@id/thumbnail"
+        android:layout_toStartOf="@+id/searchBtn" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Rechercher"
+        android:id="@+id/searchBtn"
+        android:layout_below="@id/lv_town_list"
+
+       /> -->
+
+</RelativeLayout>
