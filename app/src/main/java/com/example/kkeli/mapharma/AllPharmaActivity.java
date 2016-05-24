@@ -3,6 +3,7 @@ package com.example.kkeli.mapharma;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -13,6 +14,7 @@ public class AllPharmaActivity extends AppCompatActivity {
     Intent intent = getIntent();
     private ListView lv;
     private PharmaHandler pharmaHandler;
+    List<Town> towns;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +30,8 @@ public class AllPharmaActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(AllPharmaActivity.this, PharmacyActivity.class);
+                intent.putExtra("name", towns.get(position).getName());
+                Log.d("selected town: ", towns.get(position).getName());
                 startActivity(intent);
             }
         });
@@ -36,7 +40,7 @@ public class AllPharmaActivity extends AppCompatActivity {
 
     private void loadTownData(){
         // Code for loading contact list in ListView
-        List<Town> towns = pharmaHandler.readAllTown();
+        towns = pharmaHandler.readAllTown();
 
         // Initialize Custom Adapter
         Town.TownAdpater adapter = new Town.TownAdpater(this, towns);

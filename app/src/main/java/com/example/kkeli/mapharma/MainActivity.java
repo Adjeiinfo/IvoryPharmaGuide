@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,13 +29,14 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         pharmaHandler = new PharmaHandler(getApplicationContext());
-        addContactTest();
-        addTown();
+        //addContactTest();
+       // addTown();
 
         //test to laod the data for initial check
         //displayPharmaTest();
         //displayTown();
         //Code for loading contact list in ListView
+        addPharmacieDeGarde();
     }
 
     @Override
@@ -90,12 +92,36 @@ public class MainActivity extends AppCompatActivity {
 
     public void addContactTest(){
         //Code for loading contact list in ListView
-        pharmaHandler.addPharmaDetails(new Pharma("Pharmacie des etoile", "9800112233", "ajay@ajay.com", "", "","Abidjan","Cocody",1000));
-        pharmaHandler.addPharmaDetails(new Pharma("Pharmacie du ciel", "9644556677", "vishal@vishal.com", "", "","Yakro","Yakro",900));
-        pharmaHandler.addPharmaDetails(new Pharma("Pharmacie le paradis", "9488990011", "mahesh@mahesh.com", "", "","Daloa","Daloa",700));
-        pharmaHandler.addPharmaDetails(new Pharma("Pharmacie la vie", "9222334455", "manoj@manoj.com", "", "","Boundoukou","Bondoukou",0.5f));
+        pharmaHandler.addPharmaDetails(new Pharma("Pharmacie des etoile", "9800112233", "ajay@ajay.com", "BP 01 Abijan","","Abidjan","Abidjan",1000));
+        pharmaHandler.addPharmaDetails(new Pharma("Pharmacie du ciel", "9644556677", "vishal@vishal.com", "BP 12 Aboisso", "", "Aboisso","Aboisso",900));
+        pharmaHandler.addPharmaDetails(new Pharma("Pharmacie le paradis", "9488990011", "mahesh@mahesh.com", "BP 20 Abidjan zone3","", "Abjan","Abidjan",700));
+        pharmaHandler.addPharmaDetails(new Pharma("Pharmacie la vie", "9222334455", "manoj@manoj.com", "BP 45 Bondoukou","", "Boundoukou","Bondoukou",0.5f));
     }
 
+    public void addPharmacieDeGarde(){
+        //Code for loading contact list in ListView
+
+        //1. Verifiet que la pharmacie existe
+        String phID = pharmaHandler.readPharmaID("Pharmacie des etoile");
+
+        if(phID == null) return;
+
+
+        //2. Ajouter ceci a la table des pharmacie de garde
+        pharmaHandler.insertPharmaDeGarde(new PharmaDeGarde(phID,"20160101","20160601"));
+
+        Log.d("Unknown", "Cette pharmacie n'existe pas");
+
+        //Log.d("phdID", phID);
+
+    }
+    public String isPharmaExiste(String phName)
+    {
+        String phID = pharmaHandler.readPharmaID("Pharmacie des etoile");
+        if( phID == null) return null;
+
+        return phID;
+    }
     public void displayPharmaTest()
     {
         // Reading all contacts
