@@ -3,6 +3,7 @@ package com.example.kkeli.mapharma;
 /**
  * Created by 150482 on 2016/05/16.
  */
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ public class PharmaHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "pharma00";
 
     // Database version
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 11;
 
     // Pharmacie table name
     private static final String TABLE_PHARMA = "pharmaTable6";
@@ -64,7 +65,7 @@ public class PharmaHandler extends SQLiteOpenHelper {
 
     private String[] townColums ={TOWN_COLUNM_ID,TOWN_COLUMN_NAME};
 
-    private String[] phdColumns = {PHD_COLUMN_PID,PHD_COLUMN_ID,PHD_COLUMN_START_DATE,PHD_COLUMN_END_DATE,TOWN_COLUNM_ID };
+    private String[] phdColumns = {PHD_COLUMN_PID,/*PHD_COLUMN_ID,*/PHD_COLUMN_START_DATE,PHD_COLUMN_END_DATE,TOWN_COLUNM_ID };
     // Create database
     public PharmaHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -94,21 +95,21 @@ public class PharmaHandler extends SQLiteOpenHelper {
             + COLUMN_ADDRESS + " TEXT,"
             + COLUMN_PHOTOGRAPH + " TEXT,"
             + COLUMN_REGION + " TEXT,"
-            + COLUMN_TOWN + " TEXT"
-            + "FOREIGN KEY(" + COLUMN_ID + ") REFERENCES "
-            + TABLE_TOWN + COLUMN_ID
+            + COLUMN_TOWN + " TEXT,"
+            + " FOREIGN KEY(" + COLUMN_ID + ") REFERENCES "
+            + TABLE_TOWN + "("+ TOWN_COLUNM_ID +")"
             + ")";
 
     //Pharmacy de garde
     private static final String CREATE_TABLE_PHD = "CREATE TABLE " +
              TABLE_PHD +
             "("
-               + PHD_COLUMN_PID
-               + PHD_COLUMN_ID + " TEXT,"
+               + PHD_COLUMN_PID +" INTEGER PRIMARY KEY,"
+               /*+ PHD_COLUMN_ID + " TEXT,"*/
                + PHD_COLUMN_START_DATE +  " text,"  //should be date time  and will be changed to
-               + PHD_COLUMN_END_DATE + " text"      //should be date and will be changed to
-               + "FOREIGN KEY(" + PHD_COLUMN_ID + ") REFERENCES "
-               + TABLE_PHARMA + COLUMN_ID
+               + PHD_COLUMN_END_DATE + " text,"      //should be date and will be changed to
+               + " FOREIGN KEY(" + PHD_COLUMN_PID + ") REFERENCES "
+               + TABLE_PHARMA + "("+ COLUMN_ID +")"
                +")";
 
     // Create table
@@ -123,8 +124,8 @@ public class PharmaHandler extends SQLiteOpenHelper {
     // Drop table if older version exist
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PHARMA);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TOWN);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PHARMA);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PHD);
         onCreate(db);
     }
@@ -218,12 +219,12 @@ public class PharmaHandler extends SQLiteOpenHelper {
         return pharmas;
     }
     // Reading all pharma
-    public String readPharmaID(String pharmaName){
+    public int readPharmaID(String pharmaName){
         // Get db writable
         SQLiteDatabase db = this.getWritableDatabase();
 
-        String pharmaID;
-        pharmaID = null;
+        int pharmaID = 0;
+
         String sQuery = "SELECT  * From "
                 + TABLE_PHARMA + " WHERE "
                 + COLUMN_NAME + " = "
@@ -232,7 +233,7 @@ public class PharmaHandler extends SQLiteOpenHelper {
 
         try {
             while (cursor.moveToNext()) {
-                pharmaID = cursor.getString(0);
+                pharmaID = cursor.getInt(0);
             }
         } finally {
             cursor.close();
@@ -388,10 +389,12 @@ public class PharmaHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         // Get the values to insert
-       ContentValues vals = new ContentValues();
-        vals.put(PHD_COLUMN_PID, pharma.getPID());
-        vals.put(PHD_COLUMN_START_DATE, pharma.getStartDate());
-        vals.put(PHD_COLUMN_END_DATE, pharma.getEndDate());
+        ContentValues vals = new ContentValues();
+        vals.put(PHD_COLUMN_ID, pharma.getPID());
+        Log.d("Start date", pharma.getStartDate() +" ");
+        Log.d("Start date", pharma.getEndDate() +" ");
+        vals.put(PHD_COLUMN_START_DATE, getDate(pharma.getStartDate()));
+        vals.put(PHD_COLUMN_END_DATE, getDate(pharma.getEndDate()));
 
         // Insert values into table
         long i = db.insert(TABLE_PHARMA, null, vals);
@@ -403,8 +406,6 @@ public class PharmaHandler extends SQLiteOpenHelper {
         }else{
             return false;
         }
-        //Log.d("Pharmacie ID: ", pdID);
-        return false;
 
     }
 
@@ -512,8 +513,14 @@ public class PharmaHandler extends SQLiteOpenHelper {
 
     public String getDate() {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
-                "yyyy-MM-dd HH", Locale.getDefault());
+                "yyyy-MM-dd", Locale.getDefault());
         Date date = new Date();
         return dateFormat.format(date);
+    }
+
+    public  String getDate(Date dateString) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyy-MM-dd", Locale.getDefault());
+        return dateFormat.format(dateString);
     }
 }

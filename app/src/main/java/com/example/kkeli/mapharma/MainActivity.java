@@ -13,6 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -29,14 +31,16 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         pharmaHandler = new PharmaHandler(getApplicationContext());
-        //addContactTest();
-       // addTown();
+        addTown();
+        addContactTest();
+        addPharmacieDeGarde();
+
 
         //test to laod the data for initial check
         //displayPharmaTest();
         //displayTown();
         //Code for loading contact list in ListView
-        addPharmacieDeGarde();
+
     }
 
     @Override
@@ -102,26 +106,26 @@ public class MainActivity extends AppCompatActivity {
         //Code for loading contact list in ListView
 
         //1. Verifiet que la pharmacie existe
-        String phID = pharmaHandler.readPharmaID("Pharmacie des etoile");
+        int phID = pharmaHandler.readPharmaID("Pharmacie des etoile");
 
-        if(phID == null) return;
+        if((Integer)phID == null) return;
 
-
+        Date startDate = stringToDate("20160101");
+        Date endDate = stringToDate("20160601");
         //2. Ajouter ceci a la table des pharmacie de garde
-        pharmaHandler.insertPharmaDeGarde(new PharmaDeGarde(phID,"20160101","20160601"));
-
-        Log.d("Unknown", "Cette pharmacie n'existe pas");
-
-        //Log.d("phdID", phID);
-
+        PharmaDeGarde myPharmaDegarde = new PharmaDeGarde(phID,startDate,endDate);
+        //Log.d("id ", myPharmaDegarde.getID() + "");
+        //Log.d("start ", myPharmaDegarde.getStartDate()+"");
+        pharmaHandler.insertPharmaDeGarde(myPharmaDegarde);
     }
+    /*
     public String isPharmaExiste(String phName)
     {
         String phID = pharmaHandler.readPharmaID("Pharmacie des etoile");
         if( phID == null) return null;
 
         return phID;
-    }
+    }*/
     public void displayPharmaTest()
     {
         // Reading all contacts
@@ -205,6 +209,18 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Record",record);
         }
         Log.d("Number of town",pharmaHandler.getTownDoCount()+ " ");
+    }
+
+    public Date stringToDate(String myStringDate)
+    {
+        Date myDate = null;
+        try{
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd"); // here set the pattern as you date in string was containing like date/month/year
+            myDate = sdf.parse(myStringDate);
+        }catch(ParseException ex){
+            // handle parsing exception if date string was different from the pattern applying into the SimpleDateFormat contructor
+        }
+        return myDate;
     }
 
 }

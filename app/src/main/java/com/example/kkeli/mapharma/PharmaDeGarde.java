@@ -26,8 +26,10 @@ public class PharmaDeGarde extends Pharma {
     private String _startDate1;
     private String _endDate1;
 
-    public PharmaDeGarde(Date start,Date end ){
-
+    public PharmaDeGarde(int id, Date start,Date end ){
+        setID(id);
+        setStartDate(start);
+        setEndDate(end);
     }
 
     //set start date
@@ -62,10 +64,10 @@ public class PharmaDeGarde extends Pharma {
     }
 
 
-    public PharmaDeGarde(String id, String start,String end ){
+    public PharmaDeGarde(int id, String start,String end ){
         this._startDate1 = start;
         this._endDate1 = end;
-        this._id = id;
+        this._pid = id;
 
     }
 }
