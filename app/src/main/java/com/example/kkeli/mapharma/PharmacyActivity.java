@@ -19,8 +19,8 @@ import java.util.List;
  */
 public class PharmacyActivity extends AppCompatActivity {
     Intent intent = getIntent();
-    private ListView lv;
     List<Pharma> pharmas;
+    private ListView lv;
     private PharmaHandler pharmaHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +39,7 @@ public class PharmacyActivity extends AppCompatActivity {
         //Get the list view
         lv = (ListView)findViewById(R.id.lv_pharma_list);
 
+        Log.d("Hereeee "," Pharcie");
         loadPharmaData(townName);
         //receive intent results here
 

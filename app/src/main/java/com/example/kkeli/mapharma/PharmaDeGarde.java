@@ -6,9 +6,8 @@ import java.util.Date;
 /**
  * Created by 150482 on 2016/05/20.
  */
-public class PharmaDeGarde extends Pharma {
+public class PharmaDeGarde {
     private int _pid;
-    private String _id;
     private Date _startDate;
     private Date _endDate;
 
@@ -27,9 +26,14 @@ public class PharmaDeGarde extends Pharma {
     private String _endDate1;
 
     public PharmaDeGarde(int id, Date start,Date end ){
-        setID(id);
+        setPID(id);
         setStartDate(start);
         setEndDate(end);
+    }
+
+    //get start date
+    public Date getStartDate(){
+        return this._startDate;
     }
 
     //set start date
@@ -38,20 +42,15 @@ public class PharmaDeGarde extends Pharma {
         this._startDate = startDate;
     }
 
+    //get end date
+    public Date getEndDate(){
+        return this._endDate;
+    }
+
     //set end date
     public void setEndDate(Date endDate)
     {
         this._endDate = endDate;
-    }
-
-    //get start date
-    public Date getStartDate(){
-        return this._startDate;
-    }
-
-    //get end date
-    public Date getEndDate(){
-        return this._endDate;
     }
 
     // ID getter and setter functions
@@ -64,11 +63,11 @@ public class PharmaDeGarde extends Pharma {
     }
 
 
-    public PharmaDeGarde(int id, String start,String end ){
+  /*  public PharmaDeGarde(int id, String start,String end ){
         this._startDate1 = start;
         this._endDate1 = end;
         this._pid = id;
 
-    }
+    }*/
 }
 

@@ -16,63 +16,42 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.SimpleCursorTreeAdapter;
 
 public class PharmaHandler extends SQLiteOpenHelper {
-
-    // All variables about DB
-    // Database name
-    private static final String DATABASE_NAME = "pharma00";
-
-    // Database version
-    private static final int DATABASE_VERSION = 11;
-
-    // Pharmacie table name
-    private static final String TABLE_PHARMA = "pharmaTable6";
-
-    //Town table name
-    private static  final String TABLE_TOWN = "towntable2";
-
-    //Pharmacie de garde table name
-    private static final String TABLE_PHD ="pharmaciedegarde";
-
-    // Table Column names (add all column names here)
-
-    private static final String COLUMN_NAME = "name";
-    private static final String COLUMN_PHONE = "phone";
-    private static final String COLUMN_EMAIL = "email";
-    private static final String COLUMN_ADDRESS = "address";
-    private static final String COLUMN_PHOTOGRAPH = "photograph";
-    private static final String COLUMN_TOWN = "town";
-    private static final String COLUMN_REGION ="region";
-
-    //Town Tables column names
-
-    private static final String TOWN_COLUMN_NAME = "twonname";
 
     //Pharmacie de garde table
     public  static final String PHD_COLUMN_ID = "phdid";
     public  static final String PHD_COLUMN_PID = "phdpid";
     public static final String  PHD_COLUMN_START_DATE = "start_date";
     public static final String  PHD_COLUMN_END_DATE = "end_date";
+    // All variables about DB
+    // Database name
+    private static final String DATABASE_NAME = "pharma11";
 
+    // Table Column names (add all column names here)
+    // Database version
+    private static final int DATABASE_VERSION = 13;
+    // Pharmacie table name
+    private static final String TABLE_PHARMA = "pharmaTable8";
+    //Town table name
+    private static  final String TABLE_TOWN = "towntable4";
+    //Pharmacie de garde table name
+    private static final String TABLE_PHD ="pharmaciedegarde4";
+    private static final String COLUMN_NAME = "name";
+    private static final String COLUMN_PHONE = "phone";
+    private static final String COLUMN_EMAIL = "email";
+
+    //Town Tables column names
+    private static final String COLUMN_ADDRESS = "address";
+    private static final String COLUMN_PHOTOGRAPH = "photograph";
+    private static final String COLUMN_TOWN = "town";
+    private static final String COLUMN_REGION ="region";
+    private static final String TOWN_COLUMN_NAME = "twonname";
     //Common column
     private static final String  KEY_CREATED_AT = "created_at";
     private static final String TOWN_COLUNM_ID = "town_id";
     private static final String COLUMN_ID = "id";
-
-
-    private String[] columns= {COLUMN_ID, COLUMN_NAME, COLUMN_PHONE, COLUMN_EMAIL, COLUMN_ADDRESS, COLUMN_PHOTOGRAPH,COLUMN_REGION,COLUMN_TOWN};
-
-    private String[] townColums ={TOWN_COLUNM_ID,TOWN_COLUMN_NAME};
-
-    private String[] phdColumns = {PHD_COLUMN_PID,/*PHD_COLUMN_ID,*/PHD_COLUMN_START_DATE,PHD_COLUMN_END_DATE,TOWN_COLUNM_ID };
-    // Create database
-    public PharmaHandler(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    }
-
-    //Table create statement
-
     //Pharma table create statement
     //Town create statement
     private static final String CREATE_TABLE_TOWN =
@@ -83,7 +62,6 @@ public class PharmaHandler extends SQLiteOpenHelper {
                     + TOWN_COLUMN_NAME + " TEXT,"
                     + KEY_CREATED_AT + " DATETIME"+
                     ")";
-
     //Pharma create statement
     private static final String CREATE_TABLE = "CREATE TABLE " +
             TABLE_PHARMA +
@@ -99,18 +77,27 @@ public class PharmaHandler extends SQLiteOpenHelper {
             + " FOREIGN KEY(" + COLUMN_ID + ") REFERENCES "
             + TABLE_TOWN + "("+ TOWN_COLUNM_ID +")"
             + ")";
-
     //Pharmacy de garde
     private static final String CREATE_TABLE_PHD = "CREATE TABLE " +
              TABLE_PHD +
             "("
                + PHD_COLUMN_PID +" INTEGER PRIMARY KEY,"
-               /*+ PHD_COLUMN_ID + " TEXT,"*/
-               + PHD_COLUMN_START_DATE +  " text,"  //should be date time  and will be changed to
-               + PHD_COLUMN_END_DATE + " text,"      //should be date and will be changed to
-               + " FOREIGN KEY(" + PHD_COLUMN_PID + ") REFERENCES "
+               + PHD_COLUMN_ID + " INTEGER, "
+               + PHD_COLUMN_START_DATE +  " DATETIME,"  //should be date time  and will be changed to
+               + PHD_COLUMN_END_DATE + " DATETIME,"      //should be date and will be changed to
+               + " FOREIGN KEY(" + PHD_COLUMN_ID + ") REFERENCES "
                + TABLE_PHARMA + "("+ COLUMN_ID +")"
                +")";
+    private String[] columns= {COLUMN_ID, COLUMN_NAME, COLUMN_PHONE, COLUMN_EMAIL, COLUMN_ADDRESS, COLUMN_PHOTOGRAPH,COLUMN_REGION,COLUMN_TOWN};
+
+    //Table create statement
+    private String[] townColums ={TOWN_COLUNM_ID,TOWN_COLUMN_NAME};
+    private String[] phdColumns = {PHD_COLUMN_PID,PHD_COLUMN_ID,PHD_COLUMN_START_DATE,PHD_COLUMN_END_DATE };
+
+    // Create database
+    public PharmaHandler(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
 
     // Create table
     @Override
@@ -152,11 +139,7 @@ public class PharmaHandler extends SQLiteOpenHelper {
         long i = db.insert(TABLE_PHARMA, null, vals);
         // Close database
         db.close();
-        if(i != 0){
-            return true;
-        }else{
-            return false;
-        }
+        return i != 0;
     }
 
     // Reading all pharma
@@ -219,16 +202,17 @@ public class PharmaHandler extends SQLiteOpenHelper {
         return pharmas;
     }
     // Reading all pharma
-    public int readPharmaID(String pharmaName){
+    public int readPharmaID(String pharmaName, String townName){
         // Get db writable
         SQLiteDatabase db = this.getWritableDatabase();
 
-        int pharmaID = 0;
-
+        int pharmaID = 999999;
         String sQuery = "SELECT  * From "
                 + TABLE_PHARMA + " WHERE "
                 + COLUMN_NAME + " = "
-                +'"'+ pharmaName + '"';
+                +'"'+ pharmaName + '"'
+                + " AND " + COLUMN_TOWN+ " = "
+                +  '"'+ townName + '"';  //Changer cette ligne  mais avancons un peu
         Cursor cursor = db.rawQuery(sQuery,null);
 
         try {
@@ -256,11 +240,7 @@ public class PharmaHandler extends SQLiteOpenHelper {
         // Close database
         db.close();
 
-        if(i != 0){
-            return true;
-        }else{
-            return false;
-        }
+        return i != 0;
     }
     // Update pharma pharma
     public boolean editPharma(Pharma pharma){
@@ -275,11 +255,7 @@ public class PharmaHandler extends SQLiteOpenHelper {
 
         db.close();
 
-        if(i != 0){
-            return true;
-        }else{
-            return false;
-        }
+        return i != 0;
     }
 
     // Deleting pharma
@@ -289,11 +265,7 @@ public class PharmaHandler extends SQLiteOpenHelper {
         int i = db.delete(TABLE_PHARMA, COLUMN_ID + " = ?",  new String[] { String.valueOf(id) });
         db.close();
 
-        if(i != 0){
-            return true;
-        }else{
-            return false;
-        }
+        return i != 0;
     }
 
     //------------------------------- Town related -------------------------------
@@ -391,34 +363,39 @@ public class PharmaHandler extends SQLiteOpenHelper {
         // Get the values to insert
         ContentValues vals = new ContentValues();
         vals.put(PHD_COLUMN_ID, pharma.getPID());
-        Log.d("Start date", pharma.getStartDate() +" ");
-        Log.d("Start date", pharma.getEndDate() +" ");
+        //Log.d("MyId", pharma.getPID()+"");
+        //Log.d("insert Start date", pharma.getStartDate() +" ");
+        //Log.d("insert Start date", pharma.getEndDate() +" ");
         vals.put(PHD_COLUMN_START_DATE, getDate(pharma.getStartDate()));
         vals.put(PHD_COLUMN_END_DATE, getDate(pharma.getEndDate()));
 
         // Insert values into table
-        long i = db.insert(TABLE_PHARMA, null, vals);
+        long i = db.insert(TABLE_PHD, null, vals);
         // Close database
 
         db.close();
-        if(i != 0){
-            return true;
-        }else{
-            return false;
-        }
+        return i != 0;
 
     }
 
     // Reading all pharma
-    public List<Pharma> readAllPharmaDeGarde(){
+    public List<Pharma> readAllPharmaDeGarde(String townName, String startDate, String endDate){
         // Get db writable
         SQLiteDatabase db = this.getWritableDatabase();
 
         // Define pharmas list
-        List<Pharma> pharmas = new ArrayList<Pharma>();
-        Cursor cursor = db.query(TABLE_PHD, phdColumns, null, null, null, null, null);
-        cursor.moveToFirst();
+        // Make the query
+        String phdQuery = " SELECT * FROM " +TABLE_PHARMA +" ph "
+                         +" INNER JOIN " + TABLE_PHD + " phg " + " ON "
+                         + " ph" +"." + COLUMN_ID + " = " + "phg" +"." +  PHD_COLUMN_ID
+                         +" WHERE ph." + COLUMN_TOWN +" = " + '"' +townName + '"'
+                         + " AND "+ "strftime('%Y%m%d', "+"phg" +"."+PHD_COLUMN_START_DATE + " )= " + "'"+startDate + "'"
+                         + " AND "+ "strftime('%Y%m%d', "+"phg" + "."+ PHD_COLUMN_END_DATE + " )= " + "'" + endDate+ "'";
+        //Log.d("query: ", phdQuery);
 
+        List<Pharma> pharmas = new ArrayList<Pharma>();
+        Cursor cursor = db.rawQuery(phdQuery, null);
+        cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Pharma pharma = new Pharma();
             pharma.setID(Integer.parseInt(cursor.getString(0)));
@@ -437,38 +414,6 @@ public class PharmaHandler extends SQLiteOpenHelper {
         cursor.close();
         return pharmas;
     }
-
-    // Reading all pharma
-    public List<Pharma> readAllPharmaDeGarde(String townName){
-        // Get db writable
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        // Define pharmas list
-        List<Pharma> pharmas = new ArrayList<Pharma>();
-        String sQuery = "SELECT  * FROM "
-                + TABLE_PHD +","+ COLUMN_NAME +"From "+ TABLE_TOWN+ " WHERE "
-                + COLUMN_ID + " = Select I from "
-                + townName;
-        Cursor cursor = db.rawQuery(sQuery,null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            Pharma pharma = new Pharma();
-            pharma.setID(Integer.parseInt(cursor.getString(0)));
-            pharma.setName(cursor.getString(1));
-            pharma.setPhoneNumber(cursor.getString(2));
-            pharma.setEmail(cursor.getString(3));
-            pharma.setPostalAddress(cursor.getString(4));
-            pharma.setPhotograph(cursor.getString(5));
-            pharma.setRegion(cursor.getString(6));
-            pharma.setTown(cursor.getString(7));
-            pharmas.add(pharma);
-            cursor.moveToNext();
-        }
-        // Make sure to close the cursor
-        cursor.close();
-        return pharmas;
-    }
-
 
     /*
     * update town
@@ -481,7 +426,7 @@ public class PharmaHandler extends SQLiteOpenHelper {
 
         // updating row
         return db.update(TABLE_TOWN, values, TOWN_COLUNM_ID + " = ?",
-                new String[] { String.valueOf(pharmaDeGarde.getID()) });
+                new String[] { String.valueOf(pharmaDeGarde.getPID()) });
     }
     /**
      * delete town
