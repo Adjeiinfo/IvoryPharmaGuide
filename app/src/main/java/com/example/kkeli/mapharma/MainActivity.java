@@ -15,14 +15,20 @@ import android.widget.Button;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    public PharmaHandler pharmaHandler;
     public final static String EXTRA_MESSAGE = "com.example.kkeli.mapharma";
+    public PharmaHandler pharmaHandler;
+    //get the start_date and end_date of this week
+    public String weekSartDate;
+    public String  weekEndDate;
     Button allPharmaBtn, pharmaDeGardeBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,10 +36,16 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //set the start and end date of this week
+        weekSartDate = getWeekStartDate();
+        weekEndDate  = getWeekEndDate();
+        //Log.d("First day ", weekSartDate + " ");
+        //Log.d("Last day ", weekEndDate + " ");
+
         pharmaHandler = new PharmaHandler(getApplicationContext());
-        addTown();
-        addContactTest();
-        addPharmacieDeGarde();
+        //addTown();
+        //addContactTest();
+        //addPharmacieDeGarde();
 
 
         //test to laod the data for initial check
@@ -69,13 +81,18 @@ public class MainActivity extends AppCompatActivity {
     public void getAllPharma(View view) {
         //Ready to list the pharmas in the users area
         Intent intent = new Intent(MainActivity.this,AllPharmaActivity.class);
+        intent.putExtra("type", "ordinaire");
         startActivity(intent);
 
     }
 
     public void getPharmaDeGarde(View view) {
         //Ready to list the pharmas in the users area
-        Intent intent = new Intent(this, PharmaDeGardeActivity.class);
+        Intent intent = new Intent(MainActivity.this, AllPharmaActivity.class);
+        intent.putExtra("type", "garde");
+        //set the start and end date
+        intent.putExtra("startDate", weekSartDate);
+        intent.putExtra("endDate",weekEndDate);
         startActivity(intent);
 
     }
@@ -83,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
     public  void checkStock(View view){
         //Ready to list the pharmas in the users area
         Intent intent = new Intent(this, StockActivity.class);
+
         startActivity(intent);
 
     }
@@ -98,25 +116,26 @@ public class MainActivity extends AppCompatActivity {
         //Code for loading contact list in ListView
         pharmaHandler.addPharmaDetails(new Pharma("Pharmacie des etoile", "9800112233", "ajay@ajay.com", "BP 01 Abijan","","Abidjan","Abidjan",1000));
         pharmaHandler.addPharmaDetails(new Pharma("Pharmacie du ciel", "9644556677", "vishal@vishal.com", "BP 12 Aboisso", "", "Aboisso","Aboisso",900));
-        pharmaHandler.addPharmaDetails(new Pharma("Pharmacie le paradis", "9488990011", "mahesh@mahesh.com", "BP 20 Abidjan zone3","", "Abjan","Abidjan",700));
+        pharmaHandler.addPharmaDetails(new Pharma("Pharmacie le paradis", "9488990011", "mahesh@mahesh.com", "BP 20 Abidjan zone3","", "Abidjan","Abidjan",700));
         pharmaHandler.addPharmaDetails(new Pharma("Pharmacie la vie", "9222334455", "manoj@manoj.com", "BP 45 Bondoukou","", "Boundoukou","Bondoukou",0.5f));
     }
 
     public void addPharmacieDeGarde(){
         //Code for loading contact list in ListView
-
+        boolean test;
         //1. Verifiet que la pharmacie existe
-        int phID = pharmaHandler.readPharmaID("Pharmacie des etoile");
+        int phID = pharmaHandler.readPharmaID("Pharmacie le paradis", "Abidjan");
+
 
         if((Integer)phID == null) return;
+       // Log.d("myid ", phID + "");
 
-        Date startDate = stringToDate("20160101");
-        Date endDate = stringToDate("20160601");
+        Date startDate = stringToDate("20160606");
+        Date endDate = stringToDate("20160612");
         //2. Ajouter ceci a la table des pharmacie de garde
-        PharmaDeGarde myPharmaDegarde = new PharmaDeGarde(phID,startDate,endDate);
-        //Log.d("id ", myPharmaDegarde.getID() + "");
-        //Log.d("start ", myPharmaDegarde.getStartDate()+"");
-        pharmaHandler.insertPharmaDeGarde(myPharmaDegarde);
+        //PharmaDeGarde myPharmaDegarde = new PharmaDeGarde(phID,startDate,endDate);
+        pharmaHandler.insertPharmaDeGarde(new PharmaDeGarde(phID,startDate,endDate));
+
     }
     /*
     public String isPharmaExiste(String phName)
@@ -221,6 +240,33 @@ public class MainActivity extends AppCompatActivity {
             // handle parsing exception if date string was different from the pattern applying into the SimpleDateFormat contructor
         }
         return myDate;
+    }
+
+    public String getWeekStartDate()
+    {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyyMMdd", Locale.getDefault());
+
+        Calendar cal = Calendar.getInstance();
+
+        cal.setFirstDayOfWeek(Calendar.MONDAY);
+        cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        weekSartDate = dateFormat.format(cal.getTimeInMillis());
+
+        return weekSartDate;
+
+    }
+    public String getWeekEndDate(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyyMMdd", Locale.getDefault());
+
+        Calendar cal = Calendar.getInstance();
+        cal.setFirstDayOfWeek(Calendar.MONDAY);
+
+        cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+
+        weekEndDate = dateFormat.format(cal.getTimeInMillis());
+        return weekEndDate;
     }
 
 }
